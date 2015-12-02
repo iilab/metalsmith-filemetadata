@@ -11,8 +11,11 @@ function setMetadata(file, rule) {
     Object.keys(rule.metadata).forEach(function (key) {
         if (rule.preserve && key in file) {
             return;
+        } else if (rule.array && key in file) {
+            file[key] = Array.isArray(file[key]) ? file[key].push(rule.metadata[key]) : [ rule.metadata[key] ];
+        } else {
+            file[key] = rule.metadata[key];
         }
-        file[key] = rule.metadata[key];
     });
 }
 
